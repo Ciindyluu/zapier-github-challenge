@@ -1,3 +1,5 @@
+import { GITHUB_BASE_URL, GITHUB_DOMAIN } from './src/constants/api.js';
+
 export const authentication = {
   type: 'custom',
   fields: [
@@ -7,12 +9,12 @@ export const authentication = {
       required: true,
       type: 'password',
       helpText:
-        'Generate a PAT at github.com → Settings → Developer settings → Personal access tokens. Requires `repo` scope.',
+        `Generate a PAT at ${GITHUB_DOMAIN} → Settings → Developer settings → Personal access tokens. Requires \`repo\` scope.`,
     },
   ],
   // Zapier tests auth by calling this endpoint when user connects their account
   test: {
-    url: 'https://api.github.com/user',
+    url: `${GITHUB_BASE_URL}/user`,
     method: 'GET',
   },
   // Display username in Zapier UI using the 'login' field from test response

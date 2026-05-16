@@ -2,6 +2,7 @@ import { createAppTester } from 'zapier-platform-core';
 import { describe, test, expect, beforeEach, afterEach } from 'vitest';
 import nock from 'nock';
 
+import { GITHUB_BASE_URL } from '../constants/api.js';
 import App from '../../index.js';
 import authentication from '../../authentication.js';
 
@@ -18,7 +19,7 @@ describe('GitHub PAT authentication', () => {
 
   test('valid token authenticates successfully', async () => {
     // Mock the GitHub user API response
-    nock('https://api.github.com')
+    nock(GITHUB_BASE_URL)
       .get('/user')
       .reply(200, {
         login: 'testuser',
@@ -46,11 +47,11 @@ describe('GitHub PAT authentication', () => {
 
   test('fails on bad auth', async () => {
     // Mock the GitHub API to return 401 unauthorized
-    nock('https://api.github.com')
+    nock(GITHUB_BASE_URL)
       .get('/user')
       .reply(401, {
         message: 'Bad credentials',
-        documentation_url: 'https://docs.github.com/rest'
+        documentation_url: `https://docs.${GITHUB_DOMAIN}/rest`
       });
 
     const bundle = {

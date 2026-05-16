@@ -1,3 +1,4 @@
+import { GITHUB_BASE_URL, GITHUB_DOMAIN } from '../constants/api.js';
 import { handleErrors, validateInputs, validateRepository } from '../utils/errorHandler.js';
 
 const getIssuesImpl = async (z, bundle) => {
@@ -5,7 +6,7 @@ const getIssuesImpl = async (z, bundle) => {
     validateRepository(bundle.inputData.owner, bundle.inputData.repo, z);
 
     const response = await z.request({
-        url: `https://api.github.com/repos/${bundle.inputData.owner}/${bundle.inputData.repo}/issues`,
+        url: `${GITHUB_BASE_URL}/repos/${bundle.inputData.owner}/${bundle.inputData.repo}/issues`,
         params: {
             state: 'open',
             sort: 'created',
@@ -59,7 +60,7 @@ export default {
             title: 'Sample Issue',
             body: 'This is a sample issue body.',
             state: 'open',
-            html_url: 'https://github.com/owner/repo/issues/1',
+            html_url: `https://${GITHUB_DOMAIN}/owner/repo/issues/1`,
             user: { login: 'octocat' },
             created_at: '2024-01-01T00:00:00Z',
         },
