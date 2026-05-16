@@ -1,10 +1,10 @@
 import zapier, { defineApp } from 'zapier-platform-core';
-import packageJson from './package.json' with { type: 'json' };
 
+import packageJson from './package.json' with { type: 'json' };
 import authentication from './authentication.js';
 import { beforeRequest, afterResponse } from './middleware.js';
-import newIssue, { key as newIssueKey } from './src/triggers/newIssue.js';
 import createComment, { key as createCommentKey } from './src/creates/createComment.js';
+import newIssue, { key as newIssueKey } from './src/triggers/newIssue.js';
 
 const App = defineApp({
   version: packageJson.version,
@@ -21,7 +21,7 @@ const App = defineApp({
 
   // Add your creates here for them to show up!
   creates: {
-    [createCommentKey]: createComment
+    [createCommentKey]: createComment,
   },
 });
 

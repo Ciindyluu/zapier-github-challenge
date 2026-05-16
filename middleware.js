@@ -34,3 +34,4 @@ export const beforeRequest = [addAuthHeaders];
 export const afterResponse = [logResponse];
 
 export default { beforeRequest, afterResponse };
+
