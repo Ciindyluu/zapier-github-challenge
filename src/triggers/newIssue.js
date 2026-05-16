@@ -1,6 +1,6 @@
-import { validateInputs, validateRepository } from '../utils/errorHandler.js';
+import { handleErrors, validateInputs, validateRepository } from '../utils/errorHandler.js';
 
-const getIssues = async (z, bundle) => {
+const getIssuesImpl = async (z, bundle) => {
     // Validate required inputs
     validateInputs(bundle.inputData, ['owner', 'repo'], z);
     validateRepository(bundle.inputData.owner, bundle.inputData.repo, z);
@@ -23,6 +23,8 @@ const getIssues = async (z, bundle) => {
 
     return issues;
 };
+
+const getIssues = handleErrors(getIssuesImpl);
 
 export const key = 'new_issue';
 

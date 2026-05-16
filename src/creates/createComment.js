@@ -1,6 +1,6 @@
-import { validateInputs, validateRepository, validateIssueNumber } from '../utils/errorHandler.js';
+import { handleErrors, validateInputs, validateRepository, validateIssueNumber } from '../utils/errorHandler.js';
 
-const createComment = async (z, bundle) => {
+const createCommentImpl = async (z, bundle) => {
     // Validate required inputs
     validateInputs(bundle.inputData, ['owner', 'repo', 'issue_number', 'body'], z);
     validateRepository(bundle.inputData.owner, bundle.inputData.repo, z);
@@ -18,6 +18,8 @@ const createComment = async (z, bundle) => {
 
     return response.data;
 };
+
+const createComment = handleErrors(createCommentImpl);
 
 export const key = 'create_comment';
 
