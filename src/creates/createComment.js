@@ -1,16 +1,14 @@
 import { GITHUB_BASE_URL, GITHUB_DOMAIN } from '../constants/api.js';
 import {
-  handleErrors,
-  validateInputs,
   validateRepository,
   validateIssueNumber,
-} from '../utils/errorHandler.js';
+  validateCommentBody,
+} from '../utils/validators.js';
 
-const createCommentImpl = async (z, bundle) => {
-  // Validate required inputs
-  validateInputs(bundle.inputData, ['owner', 'repo', 'issue_number', 'body'], z);
+const createComment = async (z, bundle) => {
   validateRepository(bundle.inputData.owner, bundle.inputData.repo, z);
   validateIssueNumber(bundle.inputData.issue_number, z);
+  validateCommentBody(bundle.inputData.body, z);
 
   const response = await z.request({
     url: `${GITHUB_BASE_URL}/repos/${bundle.inputData.owner}/${bundle.inputData.repo}/issues/${bundle.inputData.issue_number}/comments`,
@@ -26,8 +24,6 @@ const createCommentImpl = async (z, bundle) => {
 
   return response.data;
 };
-
-const createComment = handleErrors(createCommentImpl);
 
 export const key = 'create_comment';
 
@@ -70,6 +66,14 @@ export default {
         required: true,
         helpText: 'The text content of the comment. Supports Markdown.',
       },
+    ],
+    outputFields: [
+      { key: 'id', label: 'Comment ID', type: 'integer' },
+      { key: 'body', label: 'Comment Body', type: 'string' },
+      { key: 'html_url', label: 'Comment URL', type: 'string' },
+      { key: 'user__login', label: 'Author Username', type: 'string' },
+      { key: 'created_at', label: 'Created At', type: 'datetime' },
+      { key: 'updated_at', label: 'Updated At', type: 'datetime' },
     ],
     perform: createComment,
     sample: {

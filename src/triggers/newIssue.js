@@ -1,8 +1,7 @@
 import { GITHUB_BASE_URL, GITHUB_DOMAIN } from '../constants/api.js';
-import { handleErrors, validateInputs, validateRepository } from '../utils/errorHandler.js';
+import { validateRepository } from '../utils/validators.js';
 
-const getIssuesImpl = async (z, bundle) => {
-  validateInputs(bundle.inputData, ['owner', 'repo'], z);
+const getIssues = async (z, bundle) => {
   validateRepository(bundle.inputData.owner, bundle.inputData.repo, z);
 
   const response = await z.request({
@@ -24,8 +23,6 @@ const getIssuesImpl = async (z, bundle) => {
 
   return issues;
 };
-
-const getIssues = handleErrors(getIssuesImpl);
 
 export const key = 'new_issue';
 
@@ -54,6 +51,17 @@ export default {
         required: true,
         helpText: 'The name of the repository (e.g. my-project).',
       },
+    ],
+    outputFields: [
+      { key: 'id', label: 'Issue ID', type: 'integer' },
+      { key: 'number', label: 'Issue Number', type: 'integer' },
+      { key: 'title', label: 'Issue Title', type: 'string' },
+      { key: 'body', label: 'Issue Body', type: 'string' },
+      { key: 'state', label: 'State', type: 'string' },
+      { key: 'html_url', label: 'Issue URL', type: 'string' },
+      { key: 'user__login', label: 'Author Username', type: 'string' },
+      { key: 'created_at', label: 'Created At', type: 'datetime' },
+      { key: 'updated_at', label: 'Updated At', type: 'datetime' },
     ],
     perform: getIssues,
     sample: {
