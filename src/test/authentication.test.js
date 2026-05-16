@@ -2,7 +2,7 @@ import { createAppTester } from 'zapier-platform-core';
 import { describe, test, expect, beforeEach, afterEach } from 'vitest';
 import nock from 'nock';
 
-import { GITHUB_BASE_URL } from '../constants/api.js';
+import { GITHUB_BASE_URL, GITHUB_DOMAIN } from '../constants/api.js';
 import App from '../../index.js';
 import authentication from '../../authentication.js';
 
