@@ -28,7 +28,49 @@ const logResponse = (response, z) => {
   return response;
 };
 
+const handleResponseErrors = (response, z) => {
+  if (response.status >= 400) {
+    const { status } = response;
+
+    // Use Zapier's built-in error types for proper handling
+    if (status === 401) {
+      throw new z.errors.RefreshAuthError(
+        'Authentication failed. Please check that your GitHub Personal Access Token is valid and has not expired.'
+      );
+    }
+
+    if (status === 404) {
+      throw new z.errors.Error(
+        'Repository or resource not found. Please verify the repository owner and name are correct, and that you have access to this repository.',
+        'NotFoundError',
+        status
+      );
+    }
+
+    if (status === 403 || status === 429) {
+      const resetTime = response.headers?.['x-ratelimit-reset'];
+      const resetDate = resetTime ? new Date(resetTime * 1000).toLocaleString() : 'soon';
+      throw new z.errors.ThrottledError(
+        `GitHub API rate limit exceeded. Your rate limit will reset at ${resetDate}. Please try again later.`
+      );
+    }
+
+    if (status >= 500) {
+      throw new z.errors.Error(
+        'GitHub server error. Please try again later.',
+        'ServerError',
+        status
+      );
+    }
+
+    // Generic error for other status codes
+    throw new z.errors.Error(`GitHub API error: ${response.statusText}`, 'APIError', status);
+  }
+
+  return response;
+};
+
 export const beforeRequest = [addAuthHeaders];
-export const afterResponse = [logResponse];
+export const afterResponse = [logResponse, handleResponseErrors];
 
 export default { beforeRequest, afterResponse };
