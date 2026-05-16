@@ -1,26 +1,32 @@
-const authentication = require('./authentication');
-const { befores = [], afters = [] } = require('./middleware');
+import zapier, { defineApp } from 'zapier-platform-core';
+import packageJson from './package.json' with { type: 'json' };
 
-module.exports = {
-  // This is just shorthand to reference the installed dependencies you have.
-  // Zapier will need to know these before we can upload.
-  version: require('./package.json').version,
-  platformVersion: require('zapier-platform-core').version,
+import authentication from './authentication.js';
+import { beforeRequest, afterResponse } from './middleware.js';
+import newIssue, { key as newIssueKey } from './src/triggers/newIssue.js';
+import createComment, { key as createCommentKey } from './src/creates/createComment.js';
+
+const App = defineApp({
+  version: packageJson.version,
+  platformVersion: zapier.version,
 
   authentication,
+  beforeRequest: [...beforeRequest],
+  afterResponse: [...afterResponse],
 
-  beforeRequest: [...befores],
+  // Add your triggers here for them to show up!
+  triggers: {
+    [newIssueKey]: newIssue,
+  },
 
-  afterResponse: [...afters],
+  // Add your creates here for them to show up!
+  creates: {
+    [createCommentKey]: createComment
+  },
+});
 
-  // If you want your trigger to show up, you better include it here!
-  triggers: {},
+// Export triggers and creates for testing
+export const triggers = App.triggers;
+export const creates = App.creates;
 
-  // If you want your searches to show up, you better include it here!
-  searches: {},
-
-  // If you want your creates to show up, you better include it here!
-  creates: {},
-
-  resources: {},
-};
+export default App;

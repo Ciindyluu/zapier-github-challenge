@@ -1,19 +1,36 @@
-'use strict';
+const addAuthHeaders = (request, z, bundle) => {
+  request.headers['Authorization'] = `Bearer ${bundle.authData.api_token}`;
+  request.headers['Accept'] = 'application/vnd.github+json';
+  request.headers['X-GitHub-Api-Version'] = '2022-11-28';
 
-// This function runs after every outbound request. You can use it to check for
-// errors or modify the response. You can have as many as you need. They'll need
-// to each be registered in your index.js file.
-const handleBadResponses = (response, z, bundle) => {
-  if (response.status === 401) {
-    throw new z.errors.Error(
-      // This message is surfaced to the user
-      'The username and/or password you supplied is incorrect',
-      'AuthenticationError',
-      response.status,
-    );
+  // Log outgoing requests for debugging
+  z.console.log(`[${request.method}] ${request.url}`);
+
+  return request;
+};
+
+const logResponse = (response, z) => {
+  // Log response status for debugging
+  z.console.log(`Response: ${response.status} ${response.statusText}`);
+
+  // Log rate limit info if available
+  if (response.headers) {
+    const remaining = response.headers['x-ratelimit-remaining'];
+    const limit = response.headers['x-ratelimit-limit'];
+    if (remaining !== undefined && limit !== undefined) {
+      z.console.log(`GitHub API Rate Limit: ${remaining}/${limit} remaining`);
+
+      // Warn if getting close to rate limit
+      if (parseInt(remaining, 10) < 100) {
+        z.console.log(`⚠️  Warning: Only ${remaining} API calls remaining`);
+      }
+    }
   }
 
   return response;
 };
 
-module.exports = { befores: [], afters: [handleBadResponses] };
+export const beforeRequest = [addAuthHeaders];
+export const afterResponse = [logResponse];
+
+export default { beforeRequest, afterResponse };
