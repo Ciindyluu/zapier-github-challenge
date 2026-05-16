@@ -3,14 +3,12 @@ const addAuthHeaders = (request, z, bundle) => {
   request.headers['Accept'] = 'application/vnd.github+json';
   request.headers['X-GitHub-Api-Version'] = '2022-11-28';
 
-  // Log outgoing requests for debugging
   z.console.log(`[${request.method}] ${request.url}`);
 
   return request;
 };
 
 const logResponse = (response, z) => {
-  // Log response status for debugging
   z.console.log(`Response: ${response.status} ${response.statusText}`);
 
   // Log rate limit info if available

@@ -14,18 +14,15 @@ const App = defineApp({
   beforeRequest: [...beforeRequest],
   afterResponse: [...afterResponse],
 
-  // Add your triggers here for them to show up!
   triggers: {
     [newIssueKey]: newIssue,
   },
 
-  // Add your creates here for them to show up!
   creates: {
     [createCommentKey]: createComment,
   },
 });
 
-// Export triggers and creates for testing
 export const triggers = App.triggers;
 export const creates = App.creates;
 

@@ -13,7 +13,6 @@ export const handleErrors = (fn) => {
         try {
             return await fn(z, bundle);
         } catch (error) {
-            // Check if it's a response error from GitHub API
             if (error.response) {
                 const status = error.response.status;
 
@@ -43,12 +42,10 @@ export const handleErrors = (fn) => {
                         );
 
                     default:
-                        // Re-throw other errors as-is
                         throw error;
                 }
             }
 
-            // Re-throw all other errors
             throw error;
         }
     };

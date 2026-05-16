@@ -1,7 +1,6 @@
 import { handleErrors, validateInputs, validateRepository } from '../utils/errorHandler.js';
 
 const getIssuesImpl = async (z, bundle) => {
-    // Validate required inputs
     validateInputs(bundle.inputData, ['owner', 'repo'], z);
     validateRepository(bundle.inputData.owner, bundle.inputData.repo, z);
 
@@ -15,10 +14,9 @@ const getIssuesImpl = async (z, bundle) => {
         },
     });
 
-    // Filter out pull requests — GitHub returns PRs in issues endpoint
+    // GitHub returns PRs in the issues endpoint, filter them out
     const issues = response.data.filter((issue) => !issue.pull_request);
 
-    // Log for debugging
     z.console.log(`Fetched ${issues.length} issues from ${bundle.inputData.owner}/${bundle.inputData.repo}`);
 
     return issues;

@@ -10,10 +10,12 @@ export const authentication = {
         'Generate a PAT at github.com → Settings → Developer settings → Personal access tokens. Requires `repo` scope.',
     },
   ],
+  // Zapier tests auth by calling this endpoint when user connects their account
   test: {
     url: 'https://api.github.com/user',
     method: 'GET',
   },
+  // Display username in Zapier UI using the 'login' field from test response
   connectionLabel: '{{login}}',
 };
 
