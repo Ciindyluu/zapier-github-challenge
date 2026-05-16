@@ -79,6 +79,41 @@ zapier push
 - `npm run lint` / `npm run lint:fix` — runs ESLint
 - `npm run format` / `npm run format:check` — runs Prettier
 
+### Claude Code Skills
+
+This project includes custom Claude Code skills in [.claude/skills/](.claude/skills/) to automate development workflow validation:
+
+#### Available Skills
+
+**`/validate-before-git-commit`** — Pre-commit validation suite
+
+Runs all quality checks before committing:
+- Code formatting check (Prettier)
+- Linting (ESLint)
+- Test suite (Vitest)
+- Zapier schema validation
+- Test coverage analysis
+
+Usage:
+```bash
+/validate-before-git-commit
+```
+
+**`/check-esm-imports-before-commit`** — ESM syntax validation
+
+Validates ES Module import/export syntax:
+- Checks for missing `.js` extensions on imports
+- Detects CommonJS syntax (`require()`, `module.exports`)
+- Validates JSON import assertions
+- Identifies forbidden ESM globals (`__dirname`, `__filename`)
+
+Usage:
+```bash
+/check-esm-imports-before-commit
+```
+
+**Best Practice**: Run `/validate-before-git-commit` before committing changes to ensure all quality checks pass.
+
 ### Project Structure
 
 ```
@@ -88,6 +123,12 @@ github-zapier-challenge/
 ├── middleware.js                    # Request/response middleware with error handling
 ├── package.json                     # Project dependencies and scripts
 ├── package-lock.json                # Locked dependency versions
+├── .claude/
+│   └── skills/                     # Claude Code custom skills
+│       ├── validate-before-git-commit/
+│       │   └── SKILL.md            # Pre-commit validation suite
+│       └── check-esm-imports-before-commit/
+│           └── SKILL.md            # ESM syntax validation
 ├── src/
 │   ├── constants/
 │   │   └── api.js                  # GitHub API base URL constants
