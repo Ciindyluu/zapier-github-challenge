@@ -19,17 +19,15 @@ describe('GitHub PAT authentication', () => {
 
   test('valid token authenticates successfully', async () => {
     // Mock the GitHub user API response
-    nock(GITHUB_BASE_URL)
-      .get('/user')
-      .reply(200, {
-        login: 'testuser',
-        id: 12345,
-        node_id: 'MDQ6VXNlcjEyMzQ1',
-        avatar_url: 'https://avatars.githubusercontent.com/u/12345',
-        type: 'User',
-        name: 'Test User',
-        email: 'test@example.com'
-      });
+    nock(GITHUB_BASE_URL).get('/user').reply(200, {
+      login: 'testuser',
+      id: 12345,
+      node_id: 'MDQ6VXNlcjEyMzQ1',
+      avatar_url: 'https://avatars.githubusercontent.com/u/12345',
+      type: 'User',
+      name: 'Test User',
+      email: 'test@example.com',
+    });
 
     const bundle = {
       authData: {
@@ -51,7 +49,7 @@ describe('GitHub PAT authentication', () => {
       .get('/user')
       .reply(401, {
         message: 'Bad credentials',
-        documentation_url: `https://docs.${GITHUB_DOMAIN}/rest`
+        documentation_url: `https://docs.${GITHUB_DOMAIN}/rest`,
       });
 
     const bundle = {

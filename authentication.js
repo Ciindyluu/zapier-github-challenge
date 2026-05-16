@@ -8,8 +8,7 @@ export const authentication = {
       label: 'GitHub Personal Access Token',
       required: true,
       type: 'password',
-      helpText:
-        `Generate a PAT at ${GITHUB_DOMAIN} → Settings → Developer settings → Personal access tokens. Requires \`repo\` scope.`,
+      helpText: `Generate a PAT at ${GITHUB_DOMAIN} → Settings → Developer settings → Personal access tokens. Requires \`repo\` scope.`,
     },
   ],
   // Zapier tests auth by calling this endpoint when user connects their account

@@ -1,6 +1,6 @@
 const addAuthHeaders = (request, z, bundle) => {
-  request.headers['Authorization'] = `Bearer ${bundle.authData.api_token}`;
-  request.headers['Accept'] = 'application/vnd.github+json';
+  request.headers.Authorization = `Bearer ${bundle.authData.api_token}`;
+  request.headers.Accept = 'application/vnd.github+json';
   request.headers['X-GitHub-Api-Version'] = '2022-11-28';
 
   z.console.log(`[${request.method}] ${request.url}`);
@@ -32,4 +32,3 @@ export const beforeRequest = [addAuthHeaders];
 export const afterResponse = [logResponse];
 
 export default { beforeRequest, afterResponse };
-
