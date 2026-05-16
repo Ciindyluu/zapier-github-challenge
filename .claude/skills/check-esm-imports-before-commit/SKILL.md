@@ -7,32 +7,32 @@ description: Validate ES Module imports after staging changes, before committing
 This project uses ES Modules (`"type": "module"` in package.json) and requires strict import conventions.
 
 ### 1. Find All JavaScript Files
-!`find . -type f -name "*.js" ! -path "./node_modules/*" ! -path "./.git/*"`
+`find . -type f -name "*.js" ! -path "./node_modules/*" ! -path "./.git/*"`
 
 **Purpose**: Identify all JS files to validate
 
 ### 2. Check for Missing .js Extensions
-!`grep -rn "from ['\"]\..*[^.js]['\"]" --include="*.js" --exclude-dir=node_modules --exclude-dir=.git . || echo "No missing extensions found"`
+`grep -rn "from ['\"]\..*[^.js]['\"]" --include="*.js" --exclude-dir=node_modules --exclude-dir=.git . || echo "No missing extensions found"`
 
 **Validates**: All relative imports include `.js` extension
 
 ### 3. Check for CommonJS Syntax
-!`grep -rn "require(" --include="*.js" --exclude-dir=node_modules --exclude-dir=.git . || echo "No require() found"`
+`grep -rn "require(" --include="*.js" --exclude-dir=node_modules --exclude-dir=.git . || echo "No require() found"`
 
 **Validates**: No `require()` usage (should use `import` instead)
 
 ### 4. Check for CommonJS Exports
-!`grep -rn "module\.exports\|exports\." --include="*.js" --exclude-dir=node_modules --exclude-dir=.git . || echo "No module.exports found"`
+`grep -rn "module\.exports\|exports\." --include="*.js" --exclude-dir=node_modules --exclude-dir=.git . || echo "No module.exports found"`
 
 **Validates**: No `module.exports` or `exports.` (should use `export` instead)
 
 ### 5. Check for __dirname or __filename
-!`grep -rn "__dirname\|__filename" --include="*.js" --exclude-dir=node_modules --exclude-dir=.git . || echo "No __dirname/__filename found"`
+`grep -rn "__dirname\|__filename" --include="*.js" --exclude-dir=node_modules --exclude-dir=.git . || echo "No __dirname/__filename found"`
 
 **Validates**: No CommonJS globals (use `import.meta.url` if needed)
 
 ### 6. Validate JSON Imports
-!`grep -rn "from ['\"].*\.json['\"]" --include="*.js" --exclude-dir=node_modules --exclude-dir=.git . || echo "No JSON imports found"`
+`grep -rn "from ['\"].*\.json['\"]" --include="*.js" --exclude-dir=node_modules --exclude-dir=.git . || echo "No JSON imports found"`
 
 **Purpose**: Check if JSON imports use proper syntax: `import data from './file.json' with { type: 'json' }`
 

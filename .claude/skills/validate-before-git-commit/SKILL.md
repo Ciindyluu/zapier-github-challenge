@@ -7,33 +7,33 @@ description: Verify that the application has no errors after staging changes, be
 Run all validation checks in sequence to ensure the application is ready for deployment:
 
 ### 1. Code Formatting
-!`npm run format:check`
+`npm run format:check`
 
 **Validates**: Prettier formatting rules (single quotes, semicolons, 2-space indentation, 100-char line width)
 
 ### 2. Linting
-!`npm run lint`
+`npm run lint`
 
 **Validates**: ESLint rules (Airbnb base config, import extensions, code style)
 
 ### 3. Test Suite
-!`npm run test`
+`npm run test`
 
 **Validates**: All unit tests pass (Vitest)
 
 ### 4. Zapier Schema
-!`zapier validate`
+`zapier validate`
 
 **Validates**: Integration schema is valid (triggers, actions, authentication structure)
 
 ### 5. Test Coverage
-!`npx vitest run --coverage`
+`npx vitest run --coverage`
 
 **Validates**: Test coverage meets standards (identifies untested files/functions)
 
 ## Git Status Check
 
-!`git status`
+`git status`
 
 **Purpose**: Review staged/unstaged changes before validation summary
 
