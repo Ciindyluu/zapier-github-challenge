@@ -14,6 +14,10 @@ const App = defineApp({
   beforeRequest: [...beforeRequest],
   afterResponse: [...afterResponse],
 
+  flags: {
+    cleanInputData: false,
+  },
+
   triggers: {
     [newIssueKey]: newIssue,
   },

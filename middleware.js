@@ -34,7 +34,7 @@ const handleResponseErrors = (response, z) => {
 
     // Use Zapier's built-in error types for proper handling
     if (status === 401) {
-      throw new z.errors.RefreshAuthError(
+      throw new z.errors.Error(
         'Authentication failed. Please check that your GitHub Personal Access Token is valid and has not expired.'
       );
     }
