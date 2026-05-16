@@ -25,5 +25,7 @@
     "vitest": "^4.1.6"
   },
   "private": true,
-  "main": "index.js"
+  "exports": {
+    ".": "./index.js"
+  }
 }
