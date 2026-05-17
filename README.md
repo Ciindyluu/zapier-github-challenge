@@ -233,9 +233,9 @@ Injects the `Authorization` header and sets required GitHub API headers (`Accept
 
 Logs API responses with rate limit information and handles HTTP errors globally:
 
-- `401` — throws `RefreshAuthError` (invalid or expired token)
+- `401` / `403` — throws `Error` (Personal Access Token is invalid or expired.)
 - `404` — throws `Error` with NotFoundError type (resource not found)
-- `403` / `429` — throws `ThrottledError` (rate limit exceeded, includes reset time)
+- `429` — throws `ThrottledError` (rate limit exceeded, includes reset time)
 - `5xx` — throws `Error` with ServerError type (GitHub server error)
 
 ### Trigger — New Issue
