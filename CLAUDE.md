@@ -134,9 +134,9 @@ export default defineApp({
 **afterResponse**: Runs after every API response
 - Logs response status and GitHub rate limit info
 - **Global error handling** by HTTP status:
-  - `401` / `403` → Custom error (Authentication failed)
+  - `401` → Custom error (Authentication failed)
   - `404` → Custom error (repository/resource not found)
-  - `429` → `ThrottledError` (rate limit exceeded, includes reset time)
+  - `403`/`429` → `ThrottledError` (rate limit exceeded, includes reset time)
   - `5xx` → Custom error (GitHub server error)
 
 ### Trigger: New Issue

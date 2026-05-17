@@ -35,7 +35,9 @@ const handleResponseErrors = (response, z) => {
     // Use Zapier's built-in error types for proper handling
     if (status === 401) {
       throw new z.errors.Error(
-        'Authentication failed. Please check that your GitHub Personal Access Token is valid and has not expired.'
+        'Authentication failed. Please check that your GitHub Personal Access Token is valid and has not expired.',
+        'AuthenticationError',
+        status
       );
     }
 
@@ -64,7 +66,12 @@ const handleResponseErrors = (response, z) => {
     }
 
     // Generic error for other status codes
-    throw new z.errors.Error(`GitHub API error: ${response.statusText}`, 'APIError', status);
+    throw new z.errors.Error(
+      `GitHub API error: ${response.status} ${response.statusText}`,
+      'APIError',
+      response.status
+    );
+
   }
 
   return response;
